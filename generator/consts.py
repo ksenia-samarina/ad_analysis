@@ -1,0 +1,1 @@
+DATABASE_URL = "postgresql+asyncpg://ad_user:ad_pass@localhost:5432/ad_db"
