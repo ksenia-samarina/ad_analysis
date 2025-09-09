@@ -37,34 +37,6 @@ services:
     depends_on:
       - zookeeper
 
-  # --- Flink JobManager ---
-#  jobmanager:
-#    image: flink:latest
-#    container_name: jobmanager
-#    depends_on:
-#      - kafka
-#    ports:
-#      - "8081:8081" # Flink Dashboard
-#      - "8000:8000" # PrometheusSink metrics
-#    environment:
-#      - |
-#        FLINK_PROPERTIES=
-#        jobmanager.rpc.address: jobmanager
-#    command: jobmanager
-#
-#  # --- Flink TaskManager ---
-#  taskmanager:
-#    image: flink:latest
-#    container_name: taskmanager
-#    depends_on:
-#      - jobmanager
-#    environment:
-#      - |
-#        FLINK_PROPERTIES=
-#        jobmanager.rpc.address: jobmanager
-#        taskmanager.numberOfTaskSlots: 2
-#    command: taskmanager
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
