@@ -8,8 +8,8 @@ from pyflink.common.watermark_strategy import WatermarkStrategy
 from kafka_source_wrapper import KafkaSourceWrapper
 from transformer.consts import SOURCE_KAFKA_TOPIC, SOURCE_KAFKA_BOOTSTRAP_SERVERS, EVENT_KEY_FIELD, \
     PROMETHEUS_METRICS_SERVER_PORT
-from transformer.metrics.ctr_metric import CTRMetric
 from transformer.prometheus_server import start_prometheus_server
+from transformer.transformations.transformation import Transformation
 
 
 class StreamingJob:
@@ -28,7 +28,7 @@ class StreamingJob:
           .window(window) \
           .process(transformation, output_type=Types.TUPLE([Types.INT(), Types.DOUBLE()]))
 
-        self.env.execute("CTR Streaming Job")
+        self.env.execute("All metrics streaming job")
 
 
 if __name__ == "__main__":
@@ -54,8 +54,9 @@ if __name__ == "__main__":
 
     # Запуск джобы
     job = StreamingJob(kafka_source, env)
+
     job.process(
         key_func=lambda event: json.loads(event).get(EVENT_KEY_FIELD),
         window=SlidingProcessingTimeWindows.of(Time.seconds(5), Time.seconds(1)),
-        transformation=CTRMetric()
+        transformation=Transformation(),
     )

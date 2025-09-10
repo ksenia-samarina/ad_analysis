@@ -3,11 +3,12 @@ import json
 from prometheus_client import Gauge
 from pyflink.datastream import ProcessWindowFunction
 
+from transformer.transformations.base_transformation import BaseTransformation
 from transformer.types.ad_types_enum import AdTypesEnum
 
 
-class CTRMetric(ProcessWindowFunction):
-    ctr_gauge = Gauge("ctr_metric", "CTR value per ad_id", ["ad_id"])
+class CTRMetric(BaseTransformation, ProcessWindowFunction):
+    ctr_gauge = Gauge("ctr_metric", "CTR (clicks / views) value per ad_id", ["ad_id"])
 
     def process(self, key, context, elements):
         clicks, views = 0, 0
